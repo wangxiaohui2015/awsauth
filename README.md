@@ -5,18 +5,19 @@ This tool is used to get MFA authentication code on AWS, it can also be used for
 
 ## Setup environment
 ### Prerequisites
-
 1. Install JDK 1.8.x  (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and setup JAVA_HOME environment variable.
 2. Install Maven 3.5.x (http://maven.apache.org/download.cgi) and setup PATH environment variable.
 3. Install Tomcat 8.x (https://tomcat.apache.org/download-80.cgi)
 
 ### Building
-
 ``` shell
 git clone git@cncdgitlab.ccoe.lab.emc.com:wangs56/awsauth.git
 cd awsauth
 mvn clean package
 ```
+
+### Deployment
+Copy file awsauth-1.0.0-RELEASE.war to \<Tomcat_Dir\>\webapps\
 
 ## Configurations
 ### Add more login users
