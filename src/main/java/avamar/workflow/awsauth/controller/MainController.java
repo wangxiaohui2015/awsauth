@@ -31,11 +31,9 @@ public class MainController {
 		String password = request.getParameter("password");
 		ModelAndView modAndView = new ModelAndView();
 		if (SecurityUtils.checkUser(userName, password)) {
-			List<SecretCode> secretCodes = KeysUtils.getAllSecretCode();
-			modAndView.addObject("secretCodes", secretCodes);
-			modAndView.setViewName("main");
 			request.getSession().setAttribute("user", userName);
 			LOGGER.info("Succeed to login with user: " + userName + ", password: " + password);
+			return new ModelAndView("redirect:/main");
 		} else {
 			modAndView.addObject("loginResult", "-1");
 			modAndView.addObject("userName", userName);
@@ -43,6 +41,15 @@ public class MainController {
 			modAndView.setViewName("login");
 			LOGGER.info("Failed to login with user: " + userName + ", password: " + password);
 		}
+		return modAndView;
+	}
+
+	@RequestMapping(value = "/main", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView showMainPage() {
+		ModelAndView modAndView = new ModelAndView();
+		List<SecretCode> secretCodes = KeysUtils.getAllSecretCode();
+		modAndView.addObject("secretCodes", secretCodes);
+		modAndView.setViewName("main");
 		return modAndView;
 	}
 }

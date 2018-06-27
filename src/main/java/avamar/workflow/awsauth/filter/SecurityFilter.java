@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Security filter
@@ -28,10 +29,11 @@ public class SecurityFilter implements Filter {
 			chain.doFilter(request, response);
 		} else {
 			String uri = httpServletRequest.getRequestURI();
-			if(uri.indexOf("/login") != -1 || uri.indexOf("jsp/login.jsp") != -1) {
+			if (uri.indexOf("/login") != -1 || uri.indexOf("jsp/login.jsp") != -1) {
 				chain.doFilter(request, response);
 			} else {
-				request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+				HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+				httpServletResponse.sendRedirect("jsp/login.jsp");
 			}
 		}
 	}
