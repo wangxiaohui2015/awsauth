@@ -21,16 +21,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- Security filter -->
-	<filter>
-		<filter-name>securityFilter</filter-name>
-		<filter-class>avamar.workflow.awsauth.filter.SecurityFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>securityFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
 	<!-- Log4j -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
@@ -47,11 +37,31 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<!-- Spring listener -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/application-*.xml</param-value>
+		<param-value>classpath:spring/spring-*.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+	<!-- Spring Reids filter-->
+	<filter>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- Security filter, if use Redis to share session, need to put this filter below filter springSessionRepositoryFilter -->
+	<filter>
+		<filter-name>securityFilter</filter-name>
+		<filter-class>avamar.workflow.awsauth.filter.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>securityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
 	<!-- Skip static resources from Spring MVC -->
 	<servlet-mapping>
